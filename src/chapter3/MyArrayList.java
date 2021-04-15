@@ -87,6 +87,16 @@ public class MyArrayList<AnyType> implements Iterable<AnyType> {
         return oldValue;
     }
 
+    /**
+     * Exercise 3.9
+     * @param items
+     */
+    public void addAll(Iterable<? extends AnyType> items) {
+        for (AnyType value : items) {
+            add(value);
+        }
+    }
+
     public Iterator<AnyType> iterator() {
         return new ArrayListIterator();
     }
@@ -158,5 +168,13 @@ public class MyArrayList<AnyType> implements Iterable<AnyType> {
             sum += item;
         }
         System.out.println("After iterator test: " + mal + " The sum is: " + sum);
+
+        // addAll test
+        MyArrayList<Double> mal2 = new MyArrayList<>();
+        for (int i = N; i > 0; i--) {
+            mal2.add(i + 0.5);
+        }
+        mal.addAll(mal2);
+        System.out.println("After addAll test: " + mal);
     }
 }
