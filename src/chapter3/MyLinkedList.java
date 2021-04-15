@@ -104,6 +104,21 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType> {
         return new LinkedListIterator();
     }
 
+    /**
+     * Exercise 3.3
+     * Test if current MyLinkedList contains value 'x'
+     * @param x The value you want to test.
+     * @return Is current MyLinkedList contains value 'x'? Yes(true) or No(false)
+     */
+    public boolean contains(AnyType x) {
+        for (Node<AnyType> node = beginMarker.next; node != endMarker; node = node.next) {
+            if (node.data == x) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -184,5 +199,8 @@ public class MyLinkedList<AnyType> implements Iterable<AnyType> {
             sum += value;
         }
         System.out.println("After clear() and iterator test(Calculate the sum): " + mll + " Sum is: " + sum);
+        // ==================== Contains test; ====================
+        int testValue = 1;
+        System.out.println("Contains test: is mll contains " + testValue + " ? " + mll.contains(testValue));
     }
 }
