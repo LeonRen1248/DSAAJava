@@ -2,6 +2,7 @@ package chapter3;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.NoSuchElementException;
 
 public class MyArrayList<AnyType> implements Iterable<AnyType> {
@@ -101,13 +102,18 @@ public class MyArrayList<AnyType> implements Iterable<AnyType> {
         return new ArrayListIterator();
     }
 
+    public ListIterator<AnyType> listIterator() {
+        return new ArrayListIterator();
+    }
+
     @Override
     public String toString() {
         return Arrays.toString(Arrays.copyOf(theItems, theSize));
     }
 
-    private class ArrayListIterator implements Iterator<AnyType> {
+    private class ArrayListIterator implements ListIterator<AnyType> {
         int currentIdx = 0;
+        boolean backward = false;
 
         @Override
         public boolean hasNext() {
@@ -116,15 +122,51 @@ public class MyArrayList<AnyType> implements Iterable<AnyType> {
 
         @Override
         public AnyType next() {
-            if (!hasNext()) {
+            if (!hasNext())
                 throw new NoSuchElementException();
-            }
+            backward = false;
             return theItems[currentIdx++];
         }
 
         @Override
+        public boolean hasPrevious() {
+            return currentIdx > 0;
+        }
+
+        @Override
+        public AnyType previous() {
+            if (!hasPrevious())
+                throw new IndexOutOfBoundsException();
+            backward = true;
+            return theItems[--currentIdx];
+        }
+
+        @Override
+        public int nextIndex() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public int previousIndex() {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
         public void remove() {
-            MyArrayList.this.remove(--currentIdx);
+            if (backward)
+                MyArrayList.this.remove(currentIdx);
+            else
+                MyArrayList.this.remove(--currentIdx);
+        }
+
+        @Override
+        public void set(AnyType value) {
+            MyArrayList.this.set(currentIdx, value);
+        }
+
+        @Override
+        public void add(AnyType value) {
+            MyArrayList.this.add(currentIdx++, value);
         }
     }
 
@@ -176,5 +218,9 @@ public class MyArrayList<AnyType> implements Iterable<AnyType> {
         }
         mal.addAll(mal2);
         System.out.println("After addAll test: " + mal);
+
+        // ListIterator test
+        System.out.println("==================== ListIterator Test ====================");
+
     }
 }
