@@ -1,33 +1,35 @@
+import chapter3.MyArrayList;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class Tester {
     public static void main(String[] args) {
-        ArrayList<Integer> al = new ArrayList<>();
+        MyArrayList<Integer> al = new MyArrayList<>();
         int N = 10;
         for (int i = N; i > 0; i--) {
             al.add(i);
         }
         System.out.println("Initial array: " + al);
 
-        // Delete the odd-th elements. The index start from 0.
-        Iterator<Integer> iter = al.iterator();
+        ListIterator<Integer> iter = al.listIterator();
         iter.next();
-        boolean tag = true;
-        while (iter.hasNext()) {
-            if (tag) {
-                iter.remove();
-                iter.next();
-            }
-            else {
-                iter.next();
-            }
-            tag = !tag;
-        }
-        if (tag) {
-            iter.remove();
-        }
-        System.out.println("Array after delete the odd-th elements: " + al);
+        iter.next();
+        iter.next();
+        iter.previous();
+        iter.add(15);
+        iter.add(16);
+        System.out.println("After delete one element using iterator: " + al);
+        iter.previous();
+        iter.previous();
+        iter.remove();
+        System.out.println(iter.previous());
+        System.out.println("After delete one element using iterator: " + al);
+//        System.out.println("Previous index is: " + iter.previousIndex());
+        iter.previous();
+        iter.remove();
+        System.out.println("After add one element: " + al);
     }
 }
